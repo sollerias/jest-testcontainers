@@ -164,6 +164,33 @@ describe("containers", () => {
       expect(actualContainer.startupTimeout).toEqual(60000);
       expect(actualContainer.opts.bindMounts).toEqual([]);
     });
+
+    it("should combined wait strategy correctly", () => {
+      // Arrange
+      const config: SingleContainerConfig = {
+        image: "redis",
+        wait: {
+          type: "combined",
+          text: "hello, world",
+          timeout: 30,
+          repeatCount: 1
+        }
+      };
+
+      // Act
+      const actualContainer: any = buildTestcontainer(config);
+
+      // Assert
+      expect(actualContainer.image).toEqual("redis:latest");
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({});
+      expect(actualContainer.waitStrategy).toEqual(
+        Wait.forLogMessage("hello, world", 1)
+      );
+      expect(actualContainer.startupTimeout).toEqual(30000);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
+    });
+
     it("should set bind mounts correctly", () => {
       // Arrange
       const config: SingleContainerConfig = {
