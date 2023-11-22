@@ -10,7 +10,7 @@ class JestTestcontainersConfigError extends Error {
 }
 
 export type EnvironmentVariableMap = { [key: string]: string };
-export type WaitConfig = PortsWaitConfig | TextWaitConfig;
+export type WaitConfig = PortsWaitConfig | TextWaitConfig | CombinedWaitConfig;
 
 export type DockerComposeConfig = {
   composeFilePath: string;
@@ -50,6 +50,13 @@ interface TextWaitConfig {
   text: string;
 }
 
+interface CombinedWaitConfig {
+  type: "combined";
+  text: string;
+  timeout: number;
+  repeatCount: number;
+}
+
 export interface BindConfig {
   source: string;
   target: string;
@@ -74,6 +81,12 @@ function assertWaitConfig(wait: any): void {
   if (wait && wait.type === "text" && !wait.text) {
     throw new JestTestcontainersConfigError(
       "wait type text requires a text to wait for"
+    );
+  }
+
+  if (wait && wait.type === "combined" && !wait.text) {
+    throw new JestTestcontainersConfigError(
+      "wait type combined requires a text to wait for"
     );
   }
 }
