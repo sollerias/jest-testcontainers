@@ -2,7 +2,7 @@ import { DockerComposeEnvironment, Wait } from "testcontainers";
 import {
   StartedTestContainer,
   TestContainer
-} from "testcontainers/dist/test-container";
+} from "testcontainers/dist/src/test-container";
 import {
   DockerComposeConfig,
   JestTestcontainersConfig,
@@ -32,11 +32,11 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([]);
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
 
     it("should set tag correctly", () => {
@@ -51,11 +51,11 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:5.0.5");
-      expect(actualContainer.ports).toEqual([]);
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
 
     it("should set ports correctly", () => {
@@ -70,11 +70,11 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([6379]);
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([6379]);
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
 
     it("should set name correctly", () => {
@@ -90,12 +90,12 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([6379]);
-      expect(actualContainer.name).toEqual("container-name");
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([6379]);
+      expect(actualContainer.opts.name).toEqual("container-name");
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
 
     it("should set env correctly", () => {
@@ -112,11 +112,11 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([]);
-      expect(actualContainer.environment).toEqual({ hello: "world" });
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({ hello: "world" });
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
 
     it("should port wait strategy correctly", () => {
@@ -134,11 +134,11 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([]);
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(30000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
 
     it("should text wait strategy correctly", () => {
@@ -156,13 +156,13 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([]);
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(
         Wait.forLogMessage("hello, world")
       );
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([]);
+      expect(actualContainer.opts.bindMounts).toEqual([]);
     });
     it("should set bind mounts correctly", () => {
       // Arrange
@@ -187,11 +187,11 @@ describe("containers", () => {
 
       // Assert
       expect(actualContainer.image).toEqual("redis:latest");
-      expect(actualContainer.ports).toEqual([]);
-      expect(actualContainer.environment).toEqual({});
+      expect(actualContainer.opts.exposedPorts).toEqual([]);
+      expect(actualContainer.opts.environment).toEqual({});
       expect(actualContainer.waitStrategy).toEqual(undefined);
       expect(actualContainer.startupTimeout).toEqual(60000);
-      expect(actualContainer.bindMounts).toEqual([
+      expect(actualContainer.opts.bindMounts).toEqual([
         {
           mode: "ro",
           source: "/somepath",
@@ -213,7 +213,7 @@ describe("containers", () => {
         composeFilePath: ".",
         composeFile: "docker-compose.yml"
       };
-      const nameRegex = new RegExp(/testcontainers-[0-9A-F]{32}/i);
+      const nameRegex = new RegExp(/testcontainers-[0-9A-F -]{36}/i);
 
       // Act
       const actualEnvironment: any = buildDockerComposeEnvironment(

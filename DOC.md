@@ -50,7 +50,7 @@ export interface SingleContainerConfig {
 }
 
 export type EnvironmentVariableMap = { [key: string]: string };
-export type WaitConfig = PortsWaitConfig | TextWaitConfig;
+export type WaitConfig = PortsWaitConfig | TextWaitConfig | CombinedWaitConfig;
 
 // wait for host and internal ports to be connectable
 // default behaviour is this
@@ -66,6 +66,15 @@ interface TextWaitConfig {
   type: "text";
   // part of the string that will be seen on the console output line
   text: string;
+}
+
+// wait until you see a text in the console output of the container in repeatCount time
+// and wait for timeout time
+interface CombinedWaitConfig {
+  type: "combined";
+  text: string;
+  timeout: number;
+  repeatCount: number;
 }
 
 export interface BindConfig {

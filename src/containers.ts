@@ -6,7 +6,7 @@ import {
 import {
   StartedTestContainer,
   TestContainer
-} from "testcontainers/dist/test-container";
+} from "testcontainers/dist/src/test-container";
 import {
   DockerComposeConfig,
   EnvironmentVariableMap,
@@ -27,6 +27,13 @@ const addWaitStrategyToContainer = (waitStrategy?: WaitConfig) => (
   }
   if (waitStrategy.type === "text") {
     return container.withWaitStrategy(Wait.forLogMessage(waitStrategy.text));
+  }
+  if (waitStrategy.type === "combined") {
+    const { repeatCount = 1, timeout = 1, text = "" } = waitStrategy;
+
+    return container
+      .withStartupTimeout(timeout * 1000)
+      .withWaitStrategy(Wait.forLogMessage(text, repeatCount));
   }
   throw new Error("unknown wait strategy for container");
 };
