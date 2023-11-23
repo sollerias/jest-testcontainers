@@ -1,28 +1,30 @@
 # jest-testcontainers
 _Forked from [trendyol/jest-testcontainers](https://github.com/trendyol/jest-testcontainers)_
+_Then forked from [blueground/jest-testcontainers](https://github.com/trendyol/jest-testcontainers)_ ^_^
 
 ### Disclaimer
 Main reason for forking is that the previous repo was not maintained anymore, causing the
 `testcontainers` API to be outdated. Additionally, we needed to support multi-arch Docker
 images, which has been supported in later versions of `testcontainers-node`.
 
+The @sollerias fork updates the `testcontainers` version to `9.5.0` and adds a new `wait` configuration type called 'combined'.
+
 Jest preset for running docker containers with your tests. Primary purpose is to make it possible to use any database in integration tests. Since it uses docker images, custom database images with different plugins/configurations can be used in the integration tests. Using [testcontainers-node](https://github.com/testcontainers/testcontainers-node) under the hood. Inspired by [@shelf/jest-mongodb](https://github.com/shelfio/jest-mongodb).
 
-[![Test Jest-Containers](https://github.com/bluegroundltd/jest-testcontainers/actions/workflows/publish.yml/badge.svg?branch=master)](https://github.com/bluegroundltd/jest-testcontainers/actions/workflows/test.yml)
-[![npm version](https://badge.fury.io/js/@blueground%2Fjest-testcontainers.svg)](https://badge.fury.io/js/@blueground%2Fjest-testcontainers)
+[![Test Jest-Containers](https://github.com/sollerias/jest-testcontainers/actions/workflows/publish.yml/badge.svg?branch=master)](https://github.com/sollerias/jest-testcontainers/actions/workflows/publish.yml)¸
 
 ## Usage
 ### Install
 Docker should be installed on your system. If running inside a CI pipeline, see [FAQ.md](./FAQ.md).
 
-```npm install --save-dev @blueground/jest-testcontainers```
+```npm install --save-dev @sollerias/jest-testcontainers```
 
 ### Edit Jest Config
 On your `jest.config.js` add the project as the preset.
 
 ```js
 module.exports = {
-  preset: '@blueground/jest-testcontainers'
+  preset: '@sollerias/jest-testcontainers'
 };
 ```
 
@@ -62,7 +64,7 @@ describe('testcontainers example suite', () => {
   beforeAll(() => {
     const redisConnectionURI = `redis://${global.__TESTCONTAINERS_REDIS_IP__}:${global.__TESTCONTAINERS_REDIS_PORT_6379__}`;
     redisClient = redis.createClient(redisConnectionURI);
-    
+
     // if you have declared multiple containers, they will be available to access as well. e.g.
     // `global.__TESTCONTAINERS_${CONFIG_KEY}_IP__`
     // `global.__TESTCONTAINERS_${CONFIG_KEY}_PORT_${CONFIG_PORT}__`
@@ -71,7 +73,7 @@ describe('testcontainers example suite', () => {
   afterAll(() => {
     redisClient.quit();
   });
-  
+
   it('write should be ok', async () => {
     // Arrange
     const setAsync = promisify(redisClient.set).bind(redisClient);
