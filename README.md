@@ -7,7 +7,7 @@ Main reason for forking is that the previous repo was not maintained anymore, ca
 `testcontainers` API to be outdated. Additionally, we needed to support multi-arch Docker
 images, which has been supported in later versions of `testcontainers-node`.
 
-The @sollerias fork updates the `testcontainers` version to `9.5.0` and adds a new `wait` configuration type called 'combined'.
+The @solleriy fork updates the `testcontainers` version to `9.5.0` and adds a new `wait` configuration type called 'combined'.
 
 Jest preset for running docker containers with your tests. Primary purpose is to make it possible to use any database in integration tests. Since it uses docker images, custom database images with different plugins/configurations can be used in the integration tests. Using [testcontainers-node](https://github.com/testcontainers/testcontainers-node) under the hood. Inspired by [@shelf/jest-mongodb](https://github.com/shelfio/jest-mongodb).
 
@@ -17,14 +17,14 @@ Jest preset for running docker containers with your tests. Primary purpose is to
 ### Install
 Docker should be installed on your system. If running inside a CI pipeline, see [FAQ.md](./FAQ.md).
 
-```npm install --save-dev @sollerias/jest-testcontainers```
+```npm install --save-dev @solleriy/jest-testcontainers```
 
 ### Edit Jest Config
 On your `jest.config.js` add the project as the preset.
 
 ```js
 module.exports = {
-  preset: '@sollerias/jest-testcontainers'
+  preset: '@solleriy/jest-testcontainers'
 };
 ```
 
