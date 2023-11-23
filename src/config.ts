@@ -70,8 +70,10 @@ function assertWaitConfig(wait: any): void {
   if (wait === undefined) {
     return;
   }
-  if (!["ports", "text"].includes(wait.type)) {
-    throw new JestTestcontainersConfigError("wait can be ports or text");
+  if (!["ports", "text", "combined"].includes(wait.type)) {
+    throw new JestTestcontainersConfigError(
+      "wait can be ports, text or combined"
+    );
   }
   if (wait && wait.type === "ports" && !Number.isInteger(wait.timeout)) {
     throw new JestTestcontainersConfigError(
