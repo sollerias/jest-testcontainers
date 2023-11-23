@@ -1,5 +1,5 @@
 {
-  "name": "@sollerias/jest-testcontainers",
+  "name": "@solleriy/jest-testcontainers",
   "version": "3.1.0",
   "description": "Jest preset for starting docker containers that stay up whilist your tests run.",
   "main": "dist/index",
@@ -42,7 +42,7 @@
     "integration",
     "test"
   ],
-  "author": "sollerias",
+  "author": "solleriy",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sollerias/jest-testcontainers/issues"
